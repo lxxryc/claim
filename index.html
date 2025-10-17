@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+      -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;     
+  outline: none !important;                 
+  box-shadow: none !important;    
+  }
+
+  *:active,
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+ 
+}
+
+
+
+  body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0a0a0a;
+    color: #fff;
+    position: relative;
+  }
+
+  /* 🔹 Background Video/Image Layer */
+  .bg-video, .bg-image {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+
+
+   html, body {
+  -webkit-user-select: none;  /* Prevents accidental text selection */
+  -webkit-touch-callout: none;/* Disables long-press popup on iOS */
+  user-select: none;
+  touch-action: manipulation; /* Makes touch interactions smoother */
+}
+
+
+  .bg-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: -1;
+  }
+
+  /* ✨ Frosted Glass Container */
+  .container {
+    width: min(90%, 400px);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: clamp(1.5rem, 4vw, 2rem);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 200, 0.25);
+    text-align: center;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+    color: #00ffc6;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px #00ffc6;
+  }
+
+  h2 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .reward-type {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reward-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    border: 2px solid #00ffc6;
+    background: transparent;
+    color: #00ffc6;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    transform: scale(1);
+  }
+
+  .reward-btn:hover {
+    background: rgba(0, 255, 198, 0.1);
+  }
+
+  .reward-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 20px rgba(0,255,198,0.6);
+  }
+
+  .reward-btn.active {
+    background: #00ffc6;
+    color: #000;
+    box-shadow: 0 0 15px #00ffc6;
+  }
+
+  input, select, button {
+    width: 100%;
+    padding: 0.9rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  input, select {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    outline: none;
+    border: 1px solid rgba(0, 255, 200, 0.25);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input:focus, select:focus {
+    border-color: #00ffc6;
+    box-shadow: 0 0 8px #00ffc6;
+  }
+
+  input::placeholder {
+    color: #bbb;
+  }
+
+  /* 🌙 Keep native arrow, dark theme for dropdown */
+ select {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 255, 200, 0.25);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  outline: none;
+  appearance: none;              /* Removes arrow on Chrome, Safari, Edge */
+  -webkit-appearance: none;      /* For Safari */
+  -moz-appearance: none;         /* For Firefox */
+  background-image: none;        /* Ensures no background arrow */
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+select:focus {
+  border-color: #00ffc6;
+  box-shadow: 0 0 8px #00ffc6;
+}
+
+
+  select option {
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+
+  /* Submit button */
+  button {
+    background: linear-gradient(90deg, #00ffc6, #007bff);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 10px rgba(0,255,200,0.3);
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #00cc99, #0055aa);
+    color: #fff;
+    box-shadow: 0 0 20px #00ffc6;
+  }
+
+  button:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 25px rgba(0,255,200,0.6);
+  }
+
+  .success {
+    color: #00ffc6;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+
+  .lx-logo {
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #00ffc6;
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px #00ffc6;
+    opacity: 0.8;
+    user-select: none;
+  }
+
+  .lx-logo span {
+    font-weight: bold;
+  }
+
+  @media (max-width: 400px) {
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; }
+    .container { padding: 1.3rem; }
+  }
+</style>
+</head>
+
+<body>
+  <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
+    <source src="https://motionbgs.com/media/7763/choso-jjk.960x540.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+
+  <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
+
+  <div class="bg-overlay"></div>
+
+  <div class="container">
+    <h1>Congratulations Baby!</h1>
+    <h2>Prize: ₱100</h2>
+
+    <div class="reward-type">
+      <button type="button" id="loadBtn" class="reward-btn active">Load</button>
+      <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
+    </div>
+
+    <form id="entryForm" action="https://formspree.io/f/xanpvjav" method="POST">
+      <input type="hidden" name="reward_type" id="rewardType" value="Load" />
+
+      <div id="loadForm">
+        <input type="tel" name="number" id="loadNumber" placeholder="Enter mobile number" required maxlength="11" inputmode="numeric" />
+        <select name="sim_type" required>
+          <option value="">SIM Type</option>
+          <option value="Smart">Smart</option>
+          <option value="Globe">Globe</option>
+          <option value="DITO">DITO</option>
+          <option value="TNT">TNT</option>
+          <option value="GOMO">GOMO</option>
+          <option value="TM">TM</option>
+          <option value="Sun">Sun</option>
+        </select>
+        <input type="text" name="promo" value="Regular Load" placeholder="Promo preference (optional)" />
+      </div>
+
+      <div id="gcashForm" style="display:none;">
+        <input type="tel" name="gcash_number" id="gcashNumber" placeholder="GCash number" maxlength="11" inputmode="numeric" />
+        <input type="text" name="gcash_name" placeholder="GCash name" />
+      </div>
+
+      <button type="submit">Submit</button>
+      <div id="message" class="success"></div>
+    </form>
+  </div>
+
+  <div class="lx-logo"><span>LX</span></div>
+
+  <script>
+    const loadBtn = document.getElementById('loadBtn');
+    const gcashBtn = document.getElementById('gcashBtn');
+    const loadForm = document.getElementById('loadForm');
+    const gcashForm = document.getElementById('gcashForm');
+    const rewardTypeInput = document.getElementById('rewardType');
+    const form = document.getElementById('entryForm');
+    const message = document.getElementById('message');
+
+
+    function allowOnlyNumbers(input) {
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '');
+      });
+    }
+    allowOnlyNumbers(document.getElementById('loadNumber'));
+    allowOnlyNumbers(document.getElementById('gcashNumber'));
+
+
+    loadBtn.addEventListener('click', () => {
+      loadBtn.classList.add('active');
+      gcashBtn.classList.remove('active');
+      loadForm.style.display = 'block';
+      gcashForm.style.display = 'none';
+      rewardTypeInput.value = 'Load';
+      document.querySelectorAll('#loadForm input, #loadForm select').forEach(el => el.required = true);
+      document.querySelectorAll('#gcashForm input').forEach(el => el.required = false);
+    });
+
+    gcashBtn.addEventListener('click', () => {
+      gcashBtn.classList.add('active');
+      loadBtn.classList.remove('active');
+      gcashForm.style.display = 'block';
+      loadForm.style.display = 'none';
+      rewardTypeInput.value = 'GCash';
+      document.querySelectorAll('#gcashForm input').forEach(el => el.required = true);
+      document.querySelectorAll('#loadForm input, #loadForm select').forEach(el => el.required = false);
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          message.textContent = 'Your entry has been submitted!';
+          form.reset();
+        } else {
+          message.textContent = 'Oops! Something went wrong.';
+        }
+      }).catch(() => {
+        message.textContent = 'Error submitting form.';
+      });
+    });
+
+
+    const bgVideo = document.getElementById('bgVideo');
+    const bgImage = document.getElementById('bgImage');
+    bgVideo.onerror = () => {
+      bgVideo.style.display = 'none';
+      bgImage.style.display = 'block';
+    };
+  </script>
+</body>
+</html>
