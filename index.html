@@ -51,10 +51,10 @@
 
 
    html, body {
-  -webkit-user-select: none;  /* Prevents accidental text selection */
-  -webkit-touch-callout: none;/* Disables long-press popup on iOS */
+  -webkit-user-select: none; 
+  -webkit-touch-callout: none;
   user-select: none;
-  touch-action: manipulation; /* Makes touch interactions smoother */
+  touch-action: manipulation;
 }
 
 
@@ -67,7 +67,6 @@
     z-index: -1;
   }
 
-  /* ✨ Frosted Glass Container */
   .container {
     width: min(90%, 400px);
     background: rgba(255, 255, 255, 0.07);
@@ -154,7 +153,6 @@
     color: #bbb;
   }
 
-  /* 🌙 Keep native arrow, dark theme for dropdown */
  select {
   width: 100%;
   padding: 0.9rem;
@@ -165,7 +163,7 @@
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
   outline: none;
-  appearance: none;              /* Removes arrow on Chrome, Safari, Edge */
+  appearance: none;              /* Removes arrow */
   -webkit-appearance: none;      /* For Safari */
   -moz-appearance: none;         /* For Firefox */
   background-image: none;        /* Ensures no background arrow */
@@ -183,7 +181,6 @@ select:focus {
     color: #fff;
   }
 
-  /* Submit button */
   button {
     background: linear-gradient(90deg, #00ffc6, #007bff);
     color: #000;
@@ -260,9 +257,9 @@ select:focus {
       <input type="hidden" name="reward_type" id="rewardType" value="Load" />
 
       <div id="loadForm">
-        <input type="tel" name="number" id="loadNumber" placeholder="Enter mobile number" required maxlength="11" inputmode="numeric" />
+        <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
         <select name="sim_type" required>
-          <option value="">SIM Type</option>
+          <option value="">Select SIM</option>
           <option value="Smart">Smart</option>
           <option value="Globe">Globe</option>
           <option value="DITO">DITO</option>
@@ -275,8 +272,8 @@ select:focus {
       </div>
 
       <div id="gcashForm" style="display:none;">
-        <input type="tel" name="gcash_number" id="gcashNumber" placeholder="GCash number" maxlength="11" inputmode="numeric" />
-        <input type="text" name="gcash_name" placeholder="GCash name" />
+        <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
+        <input type="text" name="gcash_name" placeholder="G name" />
       </div>
 
       <button type="submit">Submit</button>
@@ -327,6 +324,10 @@ select:focus {
 
     form.addEventListener('submit', e => {
       e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+
       const formData = new FormData(form);
       fetch(form.action, {
         method: form.method,
@@ -341,8 +342,12 @@ select:focus {
         }
       }).catch(() => {
         message.textContent = 'Error submitting form.';
+      }).finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
       });
     });
+
 
 
     const bgVideo = document.getElementById('bgVideo');
