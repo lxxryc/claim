@@ -231,65 +231,74 @@
 
 
 
-    /*
-   .popup-mini {
-    display: inline-block;         
-    background: rgba(0, 255, 198, 0.2); 
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
-    font-weight: bold;
-    color: #00ffc6;
-    backdrop-filter: blur(8px) saturate(150%);
-    -webkit-backdrop-filter: blur(8px) saturate(150%);
-    text-align: center;
-    font-size: 0.85rem;
-    box-shadow: 0 0 10px rgba(0,255,200,0.3);
-    pointer-events: none;          
-  }
+        /*
+      .popup-mini {
+        display: inline-block;         
+        background: rgba(0, 255, 198, 0.2); 
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-weight: bold;
+        color: #00ffc6;
+        backdrop-filter: blur(8px) saturate(150%);
+        -webkit-backdrop-filter: blur(8px) saturate(150%);
+        text-align: center;
+        font-size: 0.85rem;
+        box-shadow: 0 0 10px rgba(0,255,200,0.3);
+        pointer-events: none;          
+      }
 
-  
-  @media (max-width: 400px) {
-    .popup-mini {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.6rem;
+      
+      @media (max-width: 400px) {
+        .popup-mini {
+          font-size: 0.75rem;
+          padding: 0.25rem 0.6rem;
+        }
+      }
+      */
+
+
+
+    .reward-badge {
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+      text-align: center;
+      display: inline;      
+      cursor: default;
+      color: #00ffc6;       
+      transition: color 0.2s ease;
     }
-  }
-  */
+
+    .reward-badge .status {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #ffcc00;       
+      margin-right: 0.3rem; 
+      margin-top: 0.2rem;
+    }
+
+    .reward-badge .value {
+      font-size: 1rem;
+      color: #fff;        
+    }
+
+
+    .reward-badge .time {
+      font-size: 0.7rem;
+      color: #888;        
+      font-weight: normal; 
+      margin-top: 1px;
+      
 
 
 
-.reward-badge {
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  text-align: center;
-  display: inline;      
-  cursor: default;
-  color: #00ffc6;       
-  transition: color 0.2s ease;
-}
 
-.reward-badge .status {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: #ffcc00;       
-  margin-right: 0.3rem; 
-  margin-top: 0.2rem;
-}
-
-.reward-badge .value {
-  font-size: 1rem;
-  color: #fff;        
-}
+    }
 
 
-.reward-badge .time {
-  font-size: 0.7rem;
-  color: #888;        /* subtle grey */
-  font-weight: normal; /* lighter than the main text */
-  margin-top: 1px;
+
+
+
   
-
-
   </style>
 </head>
 
@@ -345,7 +354,6 @@
 
   <div class="lx-logo"><span>LX</span></div>
 
-  <!-- Popup -->
   <div class="popup-overlay" id="submissionPopup">
     <div class="popup-content">
       <p>Submission successful! Please allow some time for processing. — BEGULGA </p>
@@ -354,6 +362,44 @@
   </div>
 
   <script>
+
+  let inputsEnabled = false; 
+
+    const inputs = document.querySelectorAll('input, textarea, select');
+
+    function updateInputLock() {
+      inputs.forEach(input => {
+        if (!inputsEnabled) {
+          if (input.tagName === 'SELECT') {
+            input.setAttribute('disabled', 'disabled');
+          } else {
+            input.setAttribute('readonly', 'readonly'); 
+          }
+          input.addEventListener('focus', showLockNote);
+          input.addEventListener('click', showLockNote);
+        } else {
+          if (input.tagName === 'SELECT') {
+            input.removeAttribute('disabled');
+          } else {
+            input.removeAttribute('readonly'); 
+          }
+          input.removeEventListener('focus', showLockNote);
+          input.removeEventListener('click', showLockNote);
+        }
+      });
+    }
+
+    function showLockNote(e) {
+      const note = e.target.getAttribute('data-lock-note') || 'Oops dipa pwde!';
+      alert(note); 
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    updateInputLock();
+
+    setInterval(updateInputLock, 1000);
+
     const loadBtn = document.getElementById('loadBtn');
     const gcashBtn = document.getElementById('gcashBtn');
     const loadForm = document.getElementById('loadForm');
@@ -396,7 +442,6 @@
       bgImage.style.display = 'block';
     };
 
-    // Form submit handler with popup
     form.addEventListener('submit', e => {
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -428,6 +473,7 @@
     closePopup.addEventListener('click', () => {
       popup.classList.remove('show');
     });
+    
   </script>
 </body>
 </html>
