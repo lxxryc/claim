@@ -30,7 +30,6 @@
       box-shadow: none !important;               
     }
 
-    /* Prevent any background flash or overlay when tapping */
     *:active,
     *:focus {
       outline: none !important;
@@ -39,13 +38,13 @@
     }
 
     html, body {
-      -webkit-user-select: none;  /* Prevents accidental text selection */
-      -webkit-touch-callout: none;/* Disables long-press popup on iOS */
+      -webkit-user-select: none;  
+      -webkit-touch-callout: none;
       user-select: none;
-      touch-action: manipulation; /* Makes touch interactions smoother */
+      touch-action: manipulation; 
     }
 
-    /* Background video and image */
+   
     .bg-video,
     .bg-image {
       position: fixed;
@@ -67,7 +66,6 @@
       z-index: -1;
     }
 
-    /* Container */
     .container {
       width: min(90%, 400px);
       background: rgba(255, 255, 255, 0.07);
@@ -92,7 +90,6 @@
       margin-bottom: 1rem;
     }
 
-    /* Reward buttons */
     .reward-type {
       display: flex;
       justify-content: center;
@@ -121,7 +118,6 @@
       box-shadow: 0 0 15px #00ffc6;
     }
 
-    /* Form inputs */
     input,
     select,
     button {
@@ -170,7 +166,6 @@
       box-shadow: 0 0 20px #00ffc6;
     }
 
-    /* Logo */
     .lx-logo {
       position: fixed;
       bottom: 15px;
@@ -183,7 +178,6 @@
       opacity: 0.8;
     }
 
-    /* Popup */
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -283,10 +277,11 @@
     <h2>
       
 
-      Value: ₱50.69
+      <p id="valueAmount" style="font-size: 25px;">₱50.69</p>
+
       <div class="reward-badge">
         <p style="font-size: 0.6em; color:#ffcc00;">
-         <span class="countdown" id="countdown" style="color: lime;">Loading...</span>
+         <span class="countdown" id="countdown" style="color: lime;">Unavailable</span>
         </p>
       </div>
     </h2>
@@ -336,60 +331,60 @@
     </div>
   </div>
 
-  <script>
-    // Element references
-    const loadBtn = document.getElementById('loadBtn');
-    const gcashBtn = document.getElementById('gcashBtn');
-    const loadForm = document.getElementById('loadForm');
-    const gcashForm = document.getElementById('gcashForm');
-    const rewardTypeInput = document.getElementById('rewardType');
-    const form = document.getElementById('entryForm');
-    const bgVideo = document.getElementById('bgVideo');
-    const bgImage = document.getElementById('bgImage');
-    const popup = document.getElementById('submissionPopup');
-    const closePopup = document.getElementById('closePopup');
-    const countdownEl = document.getElementById('countdown');
 
-    // Toggle reward type
-    loadBtn.addEventListener('click', () => {
-      loadBtn.classList.add('active');
-      gcashBtn.classList.remove('active');
-      loadForm.style.display = 'block';
-      gcashForm.style.display = 'none';
-      rewardTypeInput.value = 'Load';
-      loadForm.querySelectorAll('input, select').forEach(el => el.required = true);
-      gcashForm.querySelectorAll('input').forEach(el => el.required = false);
-    });
 
-    gcashBtn.addEventListener('click', () => {
-      gcashBtn.classList.add('active');
-      loadBtn.classList.remove('active');
-      gcashForm.style.display = 'block';
-      loadForm.style.display = 'none';
-      rewardTypeInput.value = 'GCash';
-      gcashForm.querySelectorAll('input').forEach(el => el.required = true);
-      loadForm.querySelectorAll('input, select').forEach(el => el.required = false);
-    });
+<script>
+  const loadBtn = document.getElementById('loadBtn');
+  const gcashBtn = document.getElementById('gcashBtn');
+  const loadForm = document.getElementById('loadForm');
+  const gcashForm = document.getElementById('gcashForm');
+  const rewardTypeInput = document.getElementById('rewardType');
+  const form = document.getElementById('entryForm');
+  const bgVideo = document.getElementById('bgVideo');
+  const bgImage = document.getElementById('bgImage');
+  const popup = document.getElementById('submissionPopup');
+  const closePopup = document.getElementById('closePopup');
+  const countdownEl = document.getElementById('countdown');
 
-    bgVideo.onerror = () => {
-      bgVideo.style.display = 'none';
-      bgImage.style.display = 'block';
-    };
+  loadBtn.addEventListener('click', () => {
+    loadBtn.classList.add('active');
+    gcashBtn.classList.remove('active');
+    loadForm.style.display = 'block';
+    gcashForm.style.display = 'none';
+    rewardTypeInput.value = 'Load';
+    loadForm.querySelectorAll('input, select').forEach(el => el.required = true);
+    gcashForm.querySelectorAll('input').forEach(el => el.required = false);
+  });
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
+  gcashBtn.addEventListener('click', () => {
+    gcashBtn.classList.add('active');
+    loadBtn.classList.remove('active');
+    gcashForm.style.display = 'block';
+    loadForm.style.display = 'none';
+    rewardTypeInput.value = 'GCash';
+    gcashForm.querySelectorAll('input').forEach(el => el.required = true);
+    loadForm.querySelectorAll('input, select').forEach(el => el.required = false);
+  });
 
-      const formData = new FormData(form);
-      fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      })
+  bgVideo.onerror = () => {
+    bgVideo.style.display = 'none';
+    bgImage.style.display = 'block';
+  };
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.6';
+
+    const formData = new FormData(form);
+    fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
       .then(resp => {
-        if(resp.ok){
+        if (resp.ok) {
           form.reset();
           popup.classList.add('show');
         } else {
@@ -401,59 +396,111 @@
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
       });
+  });
+
+  closePopup.addEventListener('click', () => popup.classList.remove('show'));
+
+  function allowOnlyNumbers(input) {
+    input.addEventListener('input', () => input.value = input.value.replace(/\D/g, ''));
+  }
+  allowOnlyNumbers(document.getElementById('loadNumber'));
+  allowOnlyNumbers(document.getElementById('gcashNumber'));
+
+  const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
+
+  const openTime = { hour: 19, minute: 30 }; 
+  const availabilityDurationMinutes = 60; 
+  const availabilityMode = "disable"; // 
+  
+
+  const availableDuration = availabilityDurationMinutes * 60 * 1000;
+
+  function disableInputs() {
+    lockedInputs.forEach(input => {
+      if (input.tagName === 'BUTTON') input.setAttribute('disabled', 'disabled');
+      else input.setAttribute('readonly', 'readonly');
     });
+  }
 
-    closePopup.addEventListener('click', () => popup.classList.remove('show'));
+  function enableInputs() {
+    lockedInputs.forEach(input => {
+      input.removeAttribute('disabled');
+      input.removeAttribute('readonly');
+    });
+  }
 
-    // Only allow numbers
-    function allowOnlyNumbers(input) {
-      input.addEventListener('input', () => input.value = input.value.replace(/\D/g,''));
-    }
-    allowOnlyNumbers(document.getElementById('loadNumber'));
-    allowOnlyNumbers(document.getElementById('gcashNumber'));
+  //  If availability mode is set to "disable"
+  if (availabilityMode.toLowerCase() === "disable") {
+    countdownEl.textContent = "Unavailable.";
+    disableInputs();
+  } else {
+    const targetTime = (() => {
+      const now = new Date();
+      const target = new Date();
+      target.setHours(openTime.hour, openTime.minute, 0, 0);
+      if (target <= now) target.setDate(target.getDate() + 1);
+      return target;
+    })();
 
-    // Countdown
-    const targetTime = new Date();
-    targetTime.setHours(19,0,0,0);
+    let mainCountdownInterval, availabilityInterval, availabilityEndTime;
 
-    const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
-
+    // Countdown before open
     function updateCountdown() {
       const now = new Date();
-      let diff = targetTime - now;
+      const diff = targetTime - now;
 
-      if(diff <= 0) {
-        countdownEl.textContent = "Available! Result: 20:30-21:00";
-        lockedInputs.forEach(input => {
-          input.removeAttribute('disabled');
-          input.removeAttribute('readonly');
-        });
-        clearInterval(timerInterval);
+      if (diff <= 0) {
+        startAvailability();
+        clearInterval(mainCountdownInterval);
       } else {
-        const hours = String(Math.floor(diff / 3600000)).padStart(2,'0');
-        const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
-        const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+        const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
         countdownEl.textContent = `${hours}:${minutes}:${seconds}`;
-        lockedInputs.forEach(input => {
-          if(input.tagName === 'BUTTON') input.setAttribute('disabled','disabled');
-          else input.setAttribute('readonly','readonly');
-        });
+        disableInputs();
       }
     }
 
-    const timerInterval = setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Disable scroll
-    function preventDefault(e) { e.preventDefault(); }
-    function disableScroll() {
-      document.body.style.overflow = 'hidden'; 
-      document.body.style.height = '100vh';
-      window.addEventListener('wheel', preventDefault, { passive: false });
-      window.addEventListener('touchmove', preventDefault, { passive: false });
+    function startAvailability() {
+      enableInputs();
+      availabilityEndTime = new Date(new Date().getTime() + availableDuration);
+      availabilityInterval = setInterval(updateAvailabilityCountdown, 1000);
+      updateAvailabilityCountdown();
     }
-    disableScroll();
-  </script>
+
+    function updateAvailabilityCountdown() {
+      const now = new Date();
+      const diff = availabilityEndTime - now;
+
+      if (diff <= 0) {
+        endAvailability();
+        clearInterval(availabilityInterval);
+      } else {
+        const minutes = String(Math.floor(diff / 60000)).padStart(2, '0');
+        const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+        countdownEl.textContent = `Available — ${minutes}:${seconds}`;
+      }
+    }
+
+    function endAvailability() {
+      countdownEl.textContent = "SeeNextTime.";
+      disableInputs();
+    }
+
+    mainCountdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  }
+
+  function preventDefault(e) { e.preventDefault(); }
+  function disableScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    window.addEventListener('wheel', preventDefault, { passive: false });
+    window.addEventListener('touchmove', preventDefault, { passive: false });
+  }
+  disableScroll();
+</script>
+
 
 </body>
 </html>
