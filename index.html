@@ -266,7 +266,7 @@
 <body>
 
   <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
-    <source src="https://motionbgs.com/media/7763/choso-jjk.960x540.mp4" type="video/mp4"/>
+    <source src="https://motionbgs.com/media/2978/minecraft-sunset.960x540.mp4" type="video/mp4"/>
   </video>
   <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
   <div class="bg-overlay"></div>
@@ -420,7 +420,6 @@
     });
   }
 
-  //  If availability mode is set to "disable"
   if (availabilityMode.toLowerCase() === "disable") {
     countdownEl.textContent = "Unavailable.";
     disableInputs();
@@ -435,7 +434,6 @@
 
     let mainCountdownInterval, availabilityInterval, availabilityEndTime;
 
-    // Countdown before open
     function updateCountdown() {
       const now = new Date();
       const diff = targetTime - now;
