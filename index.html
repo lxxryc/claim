@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+*:active,
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html, body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: manipulation;
+  overflow: hidden;
+  height: 100vh;
+}
+
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height: -webkit-fill-available;
+  }
+}
+
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  color: #fff;
+  position: relative;
+}
+
+body {
+  background: url('bg-image.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-video,
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: -1;
+}
+
+.container {
+  width: min(90%, 360px);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: clamp(1rem, 3vw, 1.4rem);
+  border-radius: 15px;
+  text-align: center;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #00ffc6;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 0 8px #00ffc6;
+}
+
+.value-container {
+  margin-bottom: 0.8rem;
+}
+
+#valueAmount {
+  font-size: 20px;
+  color: #00ffc6;
+}
+
+.countdown {
+  font-size: 0.7rem;
+  color: lime;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* Buttons tighter */
+.reward-type {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.reward-btn {
+  padding: 0.45rem 1rem;
+  border-radius: 25px;
+  border: 2px solid #00ffc6;
+  background: transparent;
+  color: #00ffc6;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.reward-btn:hover {
+  background: rgba(0, 255, 198, 0.1);
+}
+
+.reward-btn.active {
+  background: #00ffc6;
+  color: #000;
+  box-shadow: 0 0 10px #00ffc6;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(0, 255, 200, 0.25);
+  appearance: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #00ffc6;
+  box-shadow: 0 0 6px #00ffc6;
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+select option {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+button[type="submit"] {
+  background: linear-gradient(90deg, #00ffc6, #007bff);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 40px;
+  box-shadow: 0 0 8px rgba(0, 255, 200, 0.3);
+  font-size: 0.9rem;
+  padding: 0.7rem;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #00cc99, #0055aa);
+  color: #fff;
+  box-shadow: 0 0 15px #00ffc6;
+}
+
+.result-link {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.lx-logo {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #00ffc6;
+  letter-spacing: 2px;
+  text-shadow: 0 0 6px #00ffc6;
+  opacity: 0.8;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 9999;
+}
+
+.popup-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-content {
+  background: transparent;
+  padding: 1.4rem;
+  border-radius: 15px;
+  text-align: center;
+  color: #00ffc6;
+  font-weight: bold;
+  backdrop-filter: blur(20px) saturate(160%);
+  width: 90%;
+  max-width: 340px;
+  font-size: 0.9rem;
+}
+
+.popup-content button {
+  margin-top: 0.8rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00ffc6, #007bff);
+  font-size: 0.85rem;
+}
+
+.popup-content button:hover {
+  background: linear-gradient(90deg, #00cc99, #0055aa);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll; 
+    background-size: contain; 
+    background-position: center top;
+  }
+}
+</style>
+
+</head>
+<body>
+
+  <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
+    <source src="https://motionbgs.com/media/2978/minecraft-sunset.960x540.mp4" type="video/mp4"/>
+  </video>
+  <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
+  <div class="bg-overlay"></div>
+
+  <div class="container">
+    <div class="value-container">
+      <div id="valueAmount">₱100.00</div>
+      <span class="countdown" id="countdown">Unavailable</span>
+    </div>
+
+    <div class="reward-type">
+      <button type="button" id="loadBtn" class="reward-btn active">Load</button>
+      <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
+    </div>
+
+    <form id="entryForm" method="POST">
+      <input type="hidden" name="reward_type" id="rewardType" value="Load" />
+
+      <div id="loadForm">
+        <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
+        
+        <div class="select-wrapper">
+          <select name="sim_type" id="sim_type" required>
+            <option value="">Select SIM</option>
+            <option value="Smart">Smart</option>
+            <option value="Globe">Globe</option>
+            <option value="DITO">DITO</option>
+            <option value="TNT">TNT</option>
+            <option value="GOMO">GOMO</option>
+            <option value="TM">TM</option>
+            <option value="Sun">Sun</option>
+          </select>
+        </div>
+
+        <input type="text" name="promo" placeholder="Promo preference (optional)" />
+      </div>
+
+      <div id="gcashForm" style="display:none;">
+        <label for="gcashNumber" class="sr-only">GCash number</label>
+        <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
+        <input type="text" name="gcash_name" placeholder="G name" />
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <a href="https://lxxryc.github.io/result/" target="_blank" class="result-link">Result</a>
+  </div>
+
+  <!--  <div class="lx-logo"><span>LX</span></div>
+-->
+  <div class="popup-overlay" id="submissionPopup">
+    <div class="popup-content">
+      <p>Submission successful! Please allow some time for processing. — BEGULGA</p>
+      <button id="closePopup">Close</button>
+    </div>
+  </div>
+
+<script>
+  const loadBtn = document.getElementById('loadBtn');
+  const gcashBtn = document.getElementById('gcashBtn');
+  const loadForm = document.getElementById('loadForm');
+  const gcashForm = document.getElementById('gcashForm');
+  const rewardTypeInput = document.getElementById('rewardType');
+  const form = document.getElementById('entryForm');
+  const bgVideo = document.getElementById('bgVideo');
+  const bgImage = document.getElementById('bgImage');
+  const popup = document.getElementById('submissionPopup');
+  const closePopup = document.getElementById('closePopup');
+  const countdownEl = document.getElementById('countdown');
+
+  loadBtn.addEventListener('click', () => {
+    loadBtn.classList.add('active');
+    gcashBtn.classList.remove('active');
+    loadForm.style.display = 'block';
+    gcashForm.style.display = 'none';
+    rewardTypeInput.value = 'Load';
+    loadForm.querySelectorAll('input, select').forEach(el => el.required = true);
+    gcashForm.querySelectorAll('input').forEach(el => el.required = false);
+  });
+
+  gcashBtn.addEventListener('click', () => {
+    gcashBtn.classList.add('active');
+    loadBtn.classList.remove('active');
+    gcashForm.style.display = 'block';
+    loadForm.style.display = 'none';
+    rewardTypeInput.value = 'GCash';
+    gcashForm.querySelectorAll('input').forEach(el => el.required = true);
+    loadForm.querySelectorAll('input, select').forEach(el => el.required = false);
+  });
+
+  bgVideo.onerror = () => {
+    bgVideo.style.display = 'none';
+    bgImage.style.display = 'block';
+  };
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.6';
+
+    const formData = new FormData(form);
+    fetch("https://formspree.io/f/xanpvjav", {
+      method: "POST",
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(resp => {
+        if (resp.ok) {
+          form.reset();
+          popup.classList.add('show');
+        } else {
+          alert('Oops! Something went wrong.');
+        }
+      })
+      .catch(() => alert('Error submitting form.'))
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+      });
+  });
+
+  closePopup.addEventListener('click', () => popup.classList.remove('show'));
+
+  function allowOnlyNumbers(input) {
+    input.addEventListener('input', () => input.value = input.value.replace(/\D/g, ''));
+  }
+  allowOnlyNumbers(document.getElementById('loadNumber'));
+  allowOnlyNumbers(document.getElementById('gcashNumber'));
+
+  const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
+
+  const openDate = { year: 2025, month: 10, day: 27, hour: 19, minute: 30 }; 
+  const availabilityDuration = { hours: 1, minutes: 0, seconds: 0 }; // 1 hour
+  const availabilityMode = "enable";
+
+  const availableDuration =
+    ((availabilityDuration.hours * 3600) +
+    (availabilityDuration.minutes * 60) +
+    availabilityDuration.seconds) * 1000;
+
+  function disableInputs() {
+    lockedInputs.forEach(input => {
+      if (input.tagName === 'BUTTON') input.setAttribute('disabled', 'disabled');
+      else input.setAttribute('readonly', 'readonly');
+    });
+  }
+
+  function enableInputs() {
+    lockedInputs.forEach(input => {
+      input.removeAttribute('disabled');
+      input.removeAttribute('readonly');
+    });
+  }
+
+  if (availabilityMode.toLowerCase() === "disable") {
+    countdownEl.textContent = "Unavailable.";
+    disableInputs();
+  } else {
+    const targetTime = new Date(openDate.year, openDate.month - 1, openDate.day, openDate.hour, openDate.minute);
+    let mainCountdownInterval, availabilityInterval, availabilityEndTime;
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetTime - now;
+
+      if (diff <= 0) {
+        startAvailability();
+        clearInterval(mainCountdownInterval);
+      } else {
+        const days = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+        const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        countdownEl.textContent = `Available in: ${days}d ${hours}:${minutes}:${seconds}`;
+        disableInputs();
+      }
+    }
+
+    function startAvailability() {
+      enableInputs();
+      availabilityEndTime = new Date(new Date().getTime() + availableDuration);
+      availabilityInterval = setInterval(updateAvailabilityCountdown, 1000);
+      updateAvailabilityCountdown();
+    }
+
+    function updateAvailabilityCountdown() {
+      const now = new Date();
+      const diff = availabilityEndTime - now;
+
+      if (diff <= 0) {
+        endAvailability();
+        clearInterval(availabilityInterval);
+      } else {
+        const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+        countdownEl.textContent = `Available — ${hours}:${minutes}:${seconds}`;
+      }
+    }
+
+    function endAvailability() {
+      countdownEl.textContent = "See you next time.";
+      disableInputs();
+    }
+
+    mainCountdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+
+  }
+
+  if (window.innerWidth > 768) { // desktop only
+  function preventDefault(e) { e.preventDefault(); }
+  function disableScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    window.addEventListener('wheel', preventDefault, { passive: false });
+    window.addEventListener('touchmove', preventDefault, { passive: false });
+  }
+  disableScroll();
+}
+
+</script>
+</body>
+</html>
