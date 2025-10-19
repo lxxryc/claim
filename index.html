@@ -273,7 +273,7 @@
 
   <div class="container">
     <h2>
-      <p id="valueAmount" style="font-size: 25px;">₱60.00</p>
+      <p id="valueAmount" style="font-size: 25px;">₱100.00</p>
       <span class="countdown" id="countdown" style="color: lime;">Unavailable</span> 
     </h2>
 
@@ -399,11 +399,11 @@
 
   const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
 
-  const openTime = { hour: 19, minute: 30 };
+  const openDate = { year: 2025, month: 10, day: 27, hour: 19, minute: 30 }; // October 25, 2025 at 7:30 PM
 
-  const availabilityDuration = { hours: 01, minutes: 00, seconds: 0 }; 
+  const availabilityDuration = { hours: 1, minutes: 0, seconds: 0 }; // 1 hour
 
-  const availabilityMode = "disable";
+  const availabilityMode = "enable";
 
   const availableDuration =
     ((availabilityDuration.hours * 3600) +
@@ -428,13 +428,16 @@
     countdownEl.textContent = "Unavailable.";
     disableInputs();
   } else {
-    const targetTime = (() => {
-      const now = new Date();
-      const target = new Date();
-      target.setHours(openTime.hour, openTime.minute, 0, 0);
-      if (target <= now) target.setDate(target.getDate() + 1);
-      return target;
-    })();
+    
+    const targetTime = new Date(
+      openDate.year,
+      openDate.month - 1, 
+      openDate.day,
+      openDate.hour,
+      openDate.minute,
+      0,
+      0
+    );
 
     let mainCountdownInterval, availabilityInterval, availabilityEndTime;
 
@@ -446,10 +449,11 @@
         startAvailability();
         clearInterval(mainCountdownInterval);
       } else {
-        const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
-        const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-        const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-        countdownEl.textContent = ` ${hours}:${minutes}:${seconds}`;
+        const days = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+        const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        countdownEl.textContent = `Starts in: ${days}d ${hours}:${minutes}:${seconds}`;
         disableInputs();
       }
     }
@@ -485,7 +489,6 @@
     updateCountdown();
   }
 
-  
   function preventDefault(e) { e.preventDefault(); }
   function disableScroll() {
     document.body.style.overflow = 'hidden';
