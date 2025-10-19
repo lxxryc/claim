@@ -273,7 +273,7 @@
 
   <div class="container">
     <h2>
-      <p id="valueAmount" style="font-size: 25px;">₱60.00</p>
+      <p id="valueAmount" style="font-size: 25px;">₱50.69</p>
       <span class="countdown" id="countdown" style="color: lime;">Unavailable</span> 
     </h2>
 
@@ -399,12 +399,16 @@
 
   const lockedInputs = document.querySelectorAll('input, select, button.reward-btn, button[type="submit"]');
 
-  const openTime = { hour: 19, minute: 30 }; 
-  const availabilityDurationMinutes = 60; 
-  const availabilityMode = "enable"; // 
-  
+  const openTime = { hour: 19, minute: 30 };
 
-  const availableDuration = availabilityDurationMinutes * 60 * 1000;
+  const availabilityDuration = { hours: 0, minutes: 2, seconds: 0 }; 
+
+  const availabilityMode = "enable";
+
+  const availableDuration =
+    ((availabilityDuration.hours * 3600) +
+    (availabilityDuration.minutes * 60) +
+    availabilityDuration.seconds) * 1000;
 
   function disableInputs() {
     lockedInputs.forEach(input => {
@@ -445,7 +449,7 @@
         const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
         const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-        countdownEl.textContent = `${hours}:${minutes}:${seconds}`;
+        countdownEl.textContent = ` ${hours}:${minutes}:${seconds}`;
         disableInputs();
       }
     }
@@ -465,14 +469,15 @@
         endAvailability();
         clearInterval(availabilityInterval);
       } else {
-        const minutes = String(Math.floor(diff / 60000)).padStart(2, '0');
+        const hours = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-        countdownEl.textContent = `Available — ${minutes}:${seconds}`;
+        countdownEl.textContent = `Available — ${hours}:${minutes}:${seconds}`;
       }
     }
 
     function endAvailability() {
-      countdownEl.textContent = "SeeNextTime.";
+      countdownEl.textContent = "See you next time.";
       disableInputs();
     }
 
@@ -480,6 +485,7 @@
     updateCountdown();
   }
 
+  
   function preventDefault(e) { e.preventDefault(); }
   function disableScroll() {
     document.body.style.overflow = 'hidden';
