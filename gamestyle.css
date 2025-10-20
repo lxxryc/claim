@@ -31,14 +31,20 @@ html, body {
 }
 
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0a0a0a;
-  color: #fff;
-  position: relative;
-}
+    body {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0a0a0a;
+      color: #fff;
+      position: relative;
+      flex-direction: column;
+      height: 100vh;
+
+    }
+
 
 body {
   background: url('bg-image.jpg') no-repeat center center fixed;
@@ -71,7 +77,7 @@ body {
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: clamp(1rem, 3vw, 1.4rem);
-  border-radius: 15px;
+  border-radius: 10px;
   text-align: center;
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -160,16 +166,16 @@ input::placeholder {
 }
 
 select option {
-  background-color: #1a1a1a;
-  color: #fff;
+  background-color: gray;
+  color: whitesmoke;
 }
 
 button[type="submit"] {
-  background: linear-gradient(90deg, #00ffc6, #007bff);
+  background: linear-gradient(90deg, #00ffc6,  #007bff);
   color: #000;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 40px;
+  border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 255, 200, 0.3);
   font-size: 0.9rem;
   padding: 0.7rem;
@@ -260,3 +266,43 @@ button[type="submit"]:hover {
   }
 }
 
+  .update-box {
+  position: relative;
+  width: min(90%, 360px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 198, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  box-shadow: 0 0 15px rgba(0, 255, 198, 0.1);
+  color: #00ffc6;
+  animation: fadeInBox 0.8s ease forwards;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem 1rem;
+}
+
+/* Center both the update box and container vertically as a stack */
+
+
+.update-box h3 {
+  
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: orange;
+  text-align: center;
+}
+
+.update-box p {
+  color: #fff;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin: 0;
+  text-align: justify;
+}
+
+@keyframes fadeInBox {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
