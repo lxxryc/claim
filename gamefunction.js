@@ -114,7 +114,7 @@
         const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
         const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
         const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-        countdownEl.textContent = `Available in: ${days}d ${hours}:${minutes}:${seconds}`;
+        countdownEl.textContent = ` ${days}d ${hours}:${minutes}:${seconds}`;
         disableInputs();
       }
     }
