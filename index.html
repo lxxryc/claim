@@ -6,30 +6,30 @@
   <link rel="stylesheet" href="gamestyle.css">
 </head>
 <body>
-
   <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
     <source src="https://motionbgs.com/media/2978/minecraft-sunset.960x540.mp4" type="video/mp4"/>
   </video>
   <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
   <div class="bg-overlay"></div>
-
+  <div class="update-box">
+    <h3> Next Update</h3>
+    <p>
+      <strong style="font-size: 0.9rem;">Louís Ryc:</strong> You'll be able to choose different modes. Giving chances both to those who want to claim quickly and those who want to answer correctly. 
+    </p>
+  </div>
   <div class="container">
     <div class="value-container">
       <div id="valueAmount">₱100.00</div>
       <span class="countdown" id="countdown">Unavailable</span>
     </div>
-
     <div class="reward-type">
       <button type="button" id="loadBtn" class="reward-btn active">Load</button>
       <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
     </div>
-
     <form id="entryForm" method="POST">
       <input type="hidden" name="reward_type" id="rewardType" value="Load" />
-
       <div id="loadForm">
         <input type="tel" name="number" id="loadNumber" placeholder="Mobile number" required maxlength="11" inputmode="numeric" />
-        
         <div class="select-wrapper">
           <select name="sim_type" id="sim_type" required>
             <option value="">Select SIM</option>
@@ -42,34 +42,24 @@
             <option value="Sun">Sun</option>
           </select>
         </div>
-
         <input type="text" name="promo" placeholder="Promo preference (optional)" />
       </div>
-
       <div id="gcashForm" style="display:none;">
         <label for="gcashNumber" class="sr-only">GCash number</label>
         <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
         <input type="text" name="gcash_name" placeholder="G name" />
       </div>
-
       <button type="submit">Submit</button>
     </form>
-
     <a href="https://lxxryc.github.io/result/" target="_blank" class="result-link">Result</a>
   </div>
-
-  <!--  <div class="lx-logo"><span>LX</span></div>
--->
+  <!--  <div class="lx-logo"><span>LX</span></div>-->
   <div class="popup-overlay" id="submissionPopup">
     <div class="popup-content">
       <p>Submission successful! Please allow some time for processing. — BEGULGA</p>
       <button id="closePopup">Close</button>
     </div>
   </div>
-
   <script src="gamefunction.js"></script>
 </body>
 </html>
-
-
-
