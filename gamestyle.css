@@ -346,3 +346,21 @@ button[type="submit"]:hover {
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.important-note {
+  display: block;
+  font-size: 0.7rem;
+  color: #fff;
+  margin-top: 0.3rem;
+  opacity: 0.8;
+  padding-bottom: 10px;
+}
+
+.important-note.show {
+  animation: fadeInNote 0.6s ease forwards;
+}
+
+@keyframes fadeInNote {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
