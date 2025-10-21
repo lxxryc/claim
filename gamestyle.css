@@ -218,7 +218,7 @@ button[type="submit"]::after {
   border-radius: inherit;
 }
 
-/* 🌌 Vivid multicolor galaxy background */
+
 button[type="submit"]::before {
   background:
     radial-gradient(circle at 70% 75%, #00cc99 0%, transparent 50%),
@@ -233,7 +233,7 @@ button[type="submit"]::before {
   opacity: 0.95;
 }
 
-/* ✨ Subtle inner energy glow */
+
 button[type="submit"]::after {
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
@@ -245,7 +245,7 @@ button[type="submit"]::after {
   mix-blend-mode: screen;
 }
 
-/* 🌠 Smooth drifting cosmic flow */
+
 @keyframes galaxyFlowHD {
   0% {
     background-position: 0% 0%;
@@ -258,7 +258,7 @@ button[type="submit"]::after {
   }
 }
 
-/* Keep text readable and glowing */
+
 button[type="submit"] span {
   position: relative;
   z-index: 1;
@@ -267,7 +267,7 @@ button[type="submit"] span {
     0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Hover for depth + glow */
+
 button[type="submit"]:hover {
   transform: scale(1.03);
   box-shadow:
