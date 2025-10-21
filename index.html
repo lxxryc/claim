@@ -11,7 +11,7 @@
   </video>
   <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
   <div class="bg-overlay"></div>
-  <div class="update-box">
+  <div class="update-box">
     <p>
       <strong style="font-size: 0.9rem;">Future update:</strong> You’ll be able to choose different modes — fixed, by current value, or by answering correctly.
     </p>
@@ -25,6 +25,7 @@
       <button type="button" id="loadBtn" class="reward-btn active">Load</button>
       <button type="button" id="gcashBtn" class="reward-btn">GCash</button>
     </div>
+    <span class="important-note" id="importantNote" style="text-align: left;"><strong style="color: darkorange;">Important:</strong> Input becomes available after the set duration</span>
     <form id="entryForm" method="POST">
       <input type="hidden" name="reward_type" id="rewardType" value="Load" />
       <div id="loadForm">
@@ -44,7 +45,7 @@
         <input type="text" name="promo" placeholder="Promo preference (optional)" />
       </div>
       <div id="gcashForm" style="display:none;">
-        <label for="gcashNumber" class="sr-only">GCash number</label>
+        <label for="gcashNumber" class="sr-only"></label>
         <input type="tel" name="gcash_number" id="gcashNumber" placeholder="G number" maxlength="11" inputmode="numeric" />
         <input type="text" name="gcash_name" placeholder="G name" />
       </div>
