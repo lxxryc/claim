@@ -94,8 +94,8 @@ function enableInputs() {
 
 
 
-const openDate = { year: 2025, month: 10, day: 27, hour: 19, minute: 30 };
-const availabilityDuration = { hours: 0, minutes: 05, seconds: 20 }; 
+const openDate = { year: 2025, month: 10, day: 27, hour: 10, minute: 10 };
+const availabilityDuration = { hours: 00, minutes: 5, seconds: 03 }; 
 const availabilityMode = "enable"; // 
 
 
@@ -119,7 +119,10 @@ if (availabilityMode.toLowerCase() === "disable") {
   countdownEl.textContent = "Unavailable.";
   disableInputs();
   importantNote.style.display = 'block';
-  importantNote.innerHTML = "<strong style='color: darkorange;'>Important:</strong> Input is currently disabled.";
+  importantNote.innerHTML = `
+    <strong style='color: darkorange;'>Important:</strong>
+    Input is currently disabled.
+  `;
 } else {
   const openTime = new Date(openDate.year, openDate.month - 1, openDate.day, openDate.hour, openDate.minute);
   const closeTime = new Date(openTime.getTime() + availableDuration);
@@ -128,30 +131,40 @@ if (availabilityMode.toLowerCase() === "disable") {
     const now = new Date();
 
     if (now < openTime) {
-    
+     
       disableInputs();
       const diff = openTime - now;
-      countdownEl.textContent = ` ${formatTime(diff)}`;
+      countdownEl.textContent = formatTime(diff);
       importantNote.style.display = 'block';
-      importantNote.innerHTML = "<strong style='color: darkorange;'>Important:</strong> Input becomes available after the set duration.";
+      importantNote.innerHTML = `
+        <strong style='color: darkorange;'>Important:</strong>
+        Input becomes available after <span style="color: lime; font-weight: 600;">${countdownEl.textContent}</span>
+      `;
     } else if (now >= openTime && now <= closeTime) {
-     
+   
       enableInputs();
       const diff = closeTime - now;
       countdownEl.textContent = `Available — ${formatTime(diff)}`;
-      importantNote.style.display = 'none';
+      importantNote.style.display = 'block';
+      importantNote.innerHTML = `
+        Input is now <span style="color: lime; font-weight: 600;">available</span> —
+        <span style="color: lime;">${formatTime(diff)}</span> remaining.
+      `;
     } else {
-     
-      disableInputs();
+       disableInputs();
       countdownEl.textContent = "Closed.";
       importantNote.style.display = 'block';
-      importantNote.innerHTML = "<strong style='color: darkorange;'>Important:</strong> Stay tuned for updates.";
+      importantNote.innerHTML = `
+        <strong style='color: darkorange;'>Important:</strong>
+        Input is currently closed. Stay tuned for what’s next.
+      `;
     }
   }
 
   updateState();
   setInterval(updateState, 1000);
 }
+
 
 
 if (window.innerWidth > 768) {
