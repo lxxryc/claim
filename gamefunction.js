@@ -94,8 +94,8 @@ function enableInputs() {
 
 
 
-const openDate = { year: 2025, month: 10, day: 27, hour: 19, minute: 10  };
-const availabilityDuration = { hours: 00, minutes: 05, seconds: 01 }; 
+const openDate = { year: 2025, month: 10, day: 26, hour: 19, minute: 30  };
+const availabilityDuration = { hours: 00, minutes: 02, seconds: 30 }; 
 const availabilityMode = "enable"; 
 
 
