@@ -12,11 +12,24 @@
   </video>
   <img src="your-fallback-image.jpg" alt="Background" class="bg-image" id="bgImage" style="display:none;" />
   <div class="bg-overlay"></div>
-  <div class="update-box">
-    <p>
-      <strong style="font-size: 0.9rem; color: ;">Future update:</strong> You’ll be able to choose different modes — <strong><span style="color: #00ffc6;">fixed</span></strong>, by <strong><span style="color: magenta;"> current value</span></strong>, or by <strong><span style="color: yellow;">answering</span></strong> correctly.
-    </p>
+<div class="update-box">
+  <div class="update-track">
+    <div class="update-text">
+      <span>
+        <strong>Future update:</strong> You’ll be able to choose different modes — 
+        <strong><span style="color: #00ffc6;">fixed value</span></strong> by 
+        <strong><span style="color: magenta;">current value</span></strong> or by 
+        <strong><span style="color: yellow;">answering correctly</span></strong> 
+      </span>
+      <span>
+        <strong>Future update:</strong> You’ll be able to choose different modes — 
+        <strong><span style="color: #00ffc6;">fixed value</span></strong> by 
+        <strong><span style="color: magenta;">current value</span></strong> or by 
+        <strong><span style="color: yellow;">answering correctly</span></strong> 
+      </span>
+    </div>
   </div>
+</div>
   <div class="container">
     <div class="value-container">
       <div id="valueAmount">$100.00</div>
@@ -46,7 +59,7 @@
             <option value="Sun">Sun</option>
           </select>
         </div>
-        <input type="text" name="promo" placeholder="Promo preference (optional)" />
+        <input type="text" name="promo" required placeholder="Regular / Promo " />
       </div>
       <div id="gcashForm" style="display:none;">
         <label for="gcashNumber" class="sr-only"></label>
@@ -60,7 +73,7 @@
   <!--  <div class="lx-logo"><span>LX</span></div>-->
   <div class="popup-overlay" id="submissionPopup">
     <div class="popup-content">
-      <p>Submission successful! Please allow some time for processing. — BEGULGA</p>
+      <p><strong>BEGULGA</strong> Submission successful! Please allow some time for processing.</p>
       <button id="closePopup">Close</button>
     </div>
   </div>
