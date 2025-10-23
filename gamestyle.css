@@ -122,10 +122,9 @@ h1 {
 
 .reward-btn {
   padding: 0.45rem 1rem;
-  border-radius: 25px;
-  border: 2px solid #00ffc6;
   background: rgba(0, 255, 198, 0.05);
-  color: #00ffc6;
+  border-radius: 25px;
+  color: #fff;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -190,7 +189,6 @@ select option {
 }
 
 
-/*submit*/
 
 button[type="submit"] {
   position: relative;
@@ -235,7 +233,6 @@ button[type="submit"]::before {
   opacity: 0.95;
 }
 
-/* ✨ Subtle inner energy glow */
 button[type="submit"]::after {
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
@@ -247,7 +244,6 @@ button[type="submit"]::after {
   mix-blend-mode: screen;
 }
 
-/* 🌠 Smooth drifting cosmic flow */
 @keyframes galaxyFlowHD {
   0% {
     background-position: 0% 0%;
@@ -260,7 +256,6 @@ button[type="submit"]::after {
   }
 }
 
-/* Keep text readable and glowing */
 button[type="submit"] span {
   position: relative;
   z-index: 1;
@@ -269,7 +264,6 @@ button[type="submit"] span {
     0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Hover for depth + glow */
 button[type="submit"]:hover {
   transform: scale(1.03);
   box-shadow:
@@ -375,40 +369,46 @@ button[type="submit"]:hover {
   }
 }
 
-  .update-box {
+
+
+.update-box {
   position: relative;
   width: min(90%, 360px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
   border-radius: 10px;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  backdrop-filter: blur(15px) saturate(150%);
-  -webkit-backdrop-filter: blur(15px) saturate(150%);
-  box-shadow: 0 0 15px rgba(0, 255, 198, 0.1);
-  color: #00ffc6;
-  animation: fadeInBox 0.8s ease forwards;
-  margin-bottom: 1.5rem;
-  padding: 0.8rem 1rem;
-}
-
-
-
-.update-box h3 {
-  
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #00ffc6;
-  text-align: center;
-}
-
-.update-box p {
   color: #fff;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  margin: 0;
-  text-align: justify;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
+
+.update-track {
+  display: flex;
+  white-space: nowrap;
+}
+
+.update-text {
+  display: flex;
+  white-space: nowrap;
+  animation: scrollTicker 20s linear infinite;
+}
+
+.update-text span {
+  display: inline-block;
+  padding-right: 4rem; 
+}
+
+@keyframes scrollTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
 
 @keyframes fadeInBox {
   from { opacity: 0; transform: translateY(-15px); }
