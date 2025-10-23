@@ -94,9 +94,9 @@ function enableInputs() {
 
 
 
-const openDate = { year: 2025, month: 10, day: 27, hour: 10, minute: 10 };
-const availabilityDuration = { hours: 00, minutes: 5, seconds: 03 }; 
-const availabilityMode = "enable"; // 
+const openDate = { year: 2025, month: 10, day: 27, hour: 19, minute: 10  };
+const availabilityDuration = { hours: 00, minutes: 05, seconds: 01 }; 
+const availabilityMode = "enable"; 
 
 
 const availableDuration =
@@ -106,7 +106,7 @@ const availableDuration =
 
 function formatTime(ms) {
   if (ms <= 0) return "00d 00:00:00";
-  const d = String(Math.floor(ms / 86400000)).padStart(2, '0'); // days
+  const d = String(Math.floor(ms / 86400000)).padStart(2, '0');
   const h = String(Math.floor((ms % 86400000) / 3600000)).padStart(2, '0');
   const m = String(Math.floor((ms % 3600000) / 60000)).padStart(2, '0');
   const s = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
@@ -121,7 +121,7 @@ if (availabilityMode.toLowerCase() === "disable") {
   importantNote.style.display = 'block';
   importantNote.innerHTML = `
     <strong style='color: darkorange;'>Important:</strong>
-    Input is currently disabled.
+    The game is currently disabled.
   `;
 } else {
   const openTime = new Date(openDate.year, openDate.month - 1, openDate.day, openDate.hour, openDate.minute);
